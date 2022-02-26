@@ -1,0 +1,10 @@
+<main>
+    <div class="stuff">
+        <div class="grid">
+            {{#each (range 5)}}
+            {{>square sq=this}}
+            {{/each}}
+        </div>
+        {{>keyboard}}
+    </div>
+</main>
