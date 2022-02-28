@@ -30,14 +30,14 @@ class Game {
         this.maxLen = this.sqrs.length
         this.goal = document.getElementById('this-isnt-the-word-you-cheater').attributes[1].nodeValue
         this.wurmbleno = document.getElementById('wurmble-no').attributes[1].nodeValue
-
+        
         if (localStorage.getItem('wurmbleno')) {
             if (localStorage.getItem('wurmbleno') !== this.wurmbleno) {
                 // new wurmble jus drop
                 localStorage.clear()
             }
         }
-
+        localStorage.setItem('wurmbleno', ''+this.wurmbleno)
         this.cStr = localStorage.getItem('lastStr')
         if (this.cStr == null)
             this.cStr = ''
@@ -136,7 +136,7 @@ class Game {
             }
         }
         wasSuccess = Math.floor(wasSuccess / this.maxLen)
-        return 'Wurmble ' + this.wurmbleno + " " + wasSuccess + '/1\n' + rowStr
+        return 'Wurmble ' + this.wurmbleno + " " + wasSuccess + '/1\n' + rowStr + '\nwurmble.com'
     }
     writeChar(c) {
         if (this.cStr.length >= this.maxLen || this.isLocked || !/^[A-Za-z]{1,1}$/.test(c)) {
