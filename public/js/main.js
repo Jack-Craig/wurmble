@@ -8,13 +8,19 @@ setTimeout(() => {
 class Notification {
     constructor(id) {
         this.elem = document.getElementById(id)
+        this.enabled = true
     }
+
     open() {
-        this.elem.style.display = 'flex'
-        this.elem.style.opacity = 1
-        setTimeout(() => {
-            this.elem.style.opacity = 0
-        }, 4000)
+        if (this.enabled) {
+            this.enabled = false
+            this.elem.classList.remove('hidden')
+            this.elem.style.opacity = 1
+            setTimeout(() => {
+                this.elem.style.opacity = 0
+                this.enabled = true
+            }, 4000)
+        }
     }
 }
 
@@ -24,7 +30,7 @@ class Game {
         this.maxLen = this.sqrs.length
         this.goal = document.getElementById('this-isnt-the-word-you-cheater').attributes[1].nodeValue
         this.wurmbleno = document.getElementById('wurmble-no').attributes[1].nodeValue
-    
+
         if (localStorage.getItem('wurmbleno')) {
             if (localStorage.getItem('wurmbleno') !== this.wurmbleno) {
                 // new wurmble jus drop
@@ -188,14 +194,12 @@ document.getElementById('help').addEventListener('click', e => {
 document.getElementById('close-modal').addEventListener('click', e => {
     document.getElementById('modal').classList.add('hidden')
 })
-
+let clippy = new Notification('clipboard-notif')
 document.getElementById('share').addEventListener('click', e => {
     shareStr = game.toString()
     navigator.clipboard.writeText(shareStr).then(function () {
         // Say copied to clipboard
-        let notif = new Notification('clipboard-notif')
-        console.log(notif.elem)
-        notif.open()
+        clippy.open()
     }, function (err) {
     });
 })
