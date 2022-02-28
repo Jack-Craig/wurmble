@@ -166,3 +166,20 @@ body {
     width: 100%;
     height: 100%;
 }
+.notif {
+    display: none;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+    position: fixed;
+    margin: 10% auto auto auto;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 6px;
+    font-size: 24px;
+    padding: 20px;
+    color: black;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+}

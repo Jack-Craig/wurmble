@@ -5,6 +5,19 @@ setTimeout(() => {
     }
 }, 5000)
 
+class Notification {
+    constructor(id) {
+        this.elem = document.getElementById(id)
+    }
+    open() {
+        this.elem.style.display = 'flex'
+        this.elem.style.opacity = 1
+        setTimeout(() => {
+            this.elem.style.opacity = 0
+        }, 4000)
+    }
+}
+
 class Game {
     constructor() {
         this.sqrs = document.getElementsByClassName('square')
@@ -180,6 +193,9 @@ document.getElementById('share').addEventListener('click', e => {
     shareStr = game.toString()
     navigator.clipboard.writeText(shareStr).then(function () {
         // Say copied to clipboard
+        let notif = new Notification('clipboard-notif')
+        console.log(notif.elem)
+        notif.open()
     }, function (err) {
     });
 })
