@@ -78,7 +78,7 @@ class Game {
                 this.sqrs[i].style.transform = 'rotateX(0deg)'
             }, i * frameTime + frameTime / 2)
         }
-        setTimeout(()=>document.getElementById('loser-banner').style.opacity = 1, frameTime*this.maxLen)
+        setTimeout(() => document.getElementById('loser-banner').style.opacity = 1, frameTime * this.maxLen)
         if (this.goal !== this.cStr) {
             setTimeout(() => document.getElementById('loser-ting').style.opacity = 1, frameTime * this.maxLen)
         } else {
@@ -150,3 +150,11 @@ document.addEventListener('keydown', key => {
     }
 })
 
+document.getElementById('help').addEventListener('click', e => {
+    document.getElementById('modal').classList.remove('hidden')
+})
+
+document.getElementById('close-modal').addEventListener('click', e => {
+    console.log('clock')
+    document.getElementById('modal').classList.add('hidden')
+})
