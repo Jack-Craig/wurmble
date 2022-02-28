@@ -1,23 +1,40 @@
 .square {
-    border: 3px solid lightgray;
-    border-radius: 10%;
-    width: 70px;
-    height: 70px;
-    margin: 5px;
+    border: 2px solid #d3d3d3;
+    border-radius: 3px;
+    width: 90%;
     box-sizing: border-box;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
-
+.square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+main {
+    height: calc(100vh - (80px + 2px));
+}
 .grid {
     display: grid;
-    width: calc(5 * (70px + 10px));
-    margin-top: 30px;
-    grid-template-columns: repeat(5, auto);
-    border-spacing: border-box;
+    grid-template-columns: repeat(5, 1fr);
+    width: 100%;
+    justify-items: center;
 }
 .stuff {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    min-width: 320px;
+    width: min(100vw, 500px);
+    margin: 0 auto 0 auto;
+    padding: 30px 10px 30px 10px;
+    box-sizing: border-box;
+    
+    padding-bottom: 10%;
 }
 .header {
     width: 100%;
@@ -26,6 +43,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: black;
 }
 a {
     cursor:pointer;
@@ -39,28 +57,54 @@ a {
 }
 body {
     margin: 0px;
-    background-color: black;
     font-family: 'Fira Sans Condensed', sans-serif;
 }
 .keyboard {
-    margin: 30px 0 0 0;
 }
 .keyboard .row {
     display: flex;
+    width: 100%;
     justify-content: center;
 }
 .keyboard button {
-    width: 20px;
-    height: 45px;
+    text-align: center;
+    min-width: 30px;
+    max-width: 48px;
+    height: 60px;
     background-color: #818384;
     border: 1px solid #818384;
     border-radius: 5px;
-    font-size: 24px;
-    align-items: center;
+    font-size: 18px;
     margin: 3px;
     color: white;
     cursor: pointer;
+    padding: 0;
 }
 .keyboard button.action {
-    width: 40px;
+    
+    max-width: 60px;
+    font-size: 16px;
+}
+.loser-banner {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;    
+}
+#loser-ting, #winner-ting {
+    opacity: 0;
+    transition: opacity .8s;
+    font-size: 24px;
+    width: 120px;
+    height: 50px;
+    background-color: lightgray;
+    border-radius: 10px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#winner-ting {
+    background-color: lightgreen;
 }

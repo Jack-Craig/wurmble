@@ -1,9 +1,20 @@
 <main>
+    <meta id="this-isnt-the-word-you-cheater" data-the-word="{{word}}" />
     <div class="stuff">
-        <div class="grid">
-            {{#each (range 5)}}
-            {{>square sq=this}}
-            {{/each}}
+        <div>
+            <div class="loser-banner">
+                <div id="loser-ting">
+                    {{word}}
+                </div>
+                <div id="winner-ting">
+                    {{word}}
+                </div>
+            </div>
+            <div class="grid">
+                {{#each (range 5)}}
+                {{>square sq=this}}
+                {{/each}}
+            </div>
         </div>
         {{>keyboard}}
     </div>
