@@ -117,13 +117,16 @@ body {
 #winner-ting {
     background-color: lightgreen;
 }
-#help {
+#help, #share {
     width: 30px;
     height:30px;
 }
-#help svg {
+#help svg, #share svg{
     width: 100%;
     height: 100%;
+}
+#share {
+    opacity: 0;
 }
 .modal {
     display: block;

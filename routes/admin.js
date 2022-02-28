@@ -2,9 +2,6 @@ let express = require('express')
 let router = express.Router()
 
 router.get('/', async (req, res) => {
-    return res.render('home', {
-        word:process.env.WORD,
-        wurmbleno:process.env.WURMBLE_DAY
-    })
+    return res.render('admin', {})
 })
 module.exports = router

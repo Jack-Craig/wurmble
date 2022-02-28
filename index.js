@@ -35,5 +35,7 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs')
 
 app.use('/', require('./routes/home'))
+// fix this yummy dessert
+app.use('/admin/'+process.env.ADMIN_LOC, require('./routes/admin'))
 
 app.listen(port, () => console.log('App listening on port ' + port))

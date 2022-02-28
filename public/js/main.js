@@ -10,27 +10,21 @@ class Game {
         this.sqrs = document.getElementsByClassName('square')
         this.maxLen = this.sqrs.length
         this.goal = document.getElementById('this-isnt-the-word-you-cheater').attributes[1].nodeValue
-
-        if (localStorage.getItem('lastAccess')) {
-            let lastAcc = new Date(localStorage.getItem('lastAccess'))
-            let now = new Date()
-            // BUG: Will be a bug if someone accesses this exactly 1 month from last time, but I don't care
-            if (lastAcc.getDate() != now.getDate()) {
-                // New day!
+        this.wurmbleno = document.getElementById('wurmble-no').attributes[1].nodeValue
+    
+        if (localStorage.getItem('wurmbleno')) {
+            if (localStorage.getItem('wurmbleno') !== this.wurmbleno) {
+                // new wurmble jus drop
                 localStorage.clear()
             }
         }
 
         this.cStr = localStorage.getItem('lastStr')
-        if (this.cStr == null) {
-            localStorage.setItem('lastAccess', (new Date()).toString())
+        if (this.cStr == null)
             this.cStr = ''
-        } else {
-            localStorage.setItem('lastAccess', (new Date()).toString())
-        }
 
         this.render(false)
-        if (this.cStr.length == this.maxLen)
+        if (localStorage.getItem('wasDone'))
             this.complete()
     }
     complete() {
@@ -84,8 +78,11 @@ class Game {
         } else {
             setTimeout(() => document.getElementById('winner-ting').style.opacity = 1, frameTime * this.maxLen)
         }
+        document.getElementById('share').style.opacity = 1
+        localStorage.setItem('wasDone', 'True')
         this.isLocked = true
     }
+
     render(animLast) {
         for (let i = 0; i < this.maxLen; i++) {
             if (i < this.cStr.length) {
@@ -99,6 +96,28 @@ class Game {
                 this.sqrs[i].innerHTML = ''
 
         }
+    }
+    toString() {
+        if (!this.isLocked) {
+            return ''
+        }
+        let rowStr = ''
+        let wasSuccess = 0
+        for (const elem of this.sqrs) {
+            switch (elem.style.backgroundColor) {
+                case 'rgb(106, 170, 100)':
+                    wasSuccess += 1
+                    rowStr += '🟩'
+                    break
+                case 'rgb(252, 225, 102)':
+                    rowStr += '🟨'
+                    break
+                default:
+                    rowStr += '⬜'
+            }
+        }
+        wasSuccess = Math.floor(wasSuccess / this.maxLen)
+        return 'Wurmble ' + this.wurmbleno + " " + wasSuccess + '/1\n' + rowStr
     }
     writeChar(c) {
         if (this.cStr.length >= this.maxLen || this.isLocked || !/^[A-Za-z]{1,1}$/.test(c)) {
@@ -116,7 +135,6 @@ class Game {
         localStorage.setItem('lastStr', this.cStr)
         this.render(false)
     }
-
 }
 
 let game = new Game()
@@ -155,6 +173,13 @@ document.getElementById('help').addEventListener('click', e => {
 })
 
 document.getElementById('close-modal').addEventListener('click', e => {
-    console.log('clock')
     document.getElementById('modal').classList.add('hidden')
+})
+
+document.getElementById('share').addEventListener('click', e => {
+    shareStr = game.toString()
+    navigator.clipboard.writeText(shareStr).then(function () {
+        // Say copied to clipboard
+    }, function (err) {
+    });
 })
