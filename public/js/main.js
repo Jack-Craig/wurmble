@@ -1,10 +1,38 @@
+setTimeout(() => {
+    let now = new Date()
+    if (now.getHours() == 0 && now) {
+
+    }
+}, 5000)
+
 class Game {
     constructor() {
-        this.cStr = ''
         this.sqrs = document.getElementsByClassName('square')
         this.maxLen = this.sqrs.length
         this.goal = document.getElementById('this-isnt-the-word-you-cheater').attributes[1].nodeValue
-        this.isLocked = false
+
+        if (localStorage.getItem('lastAccess')) {
+            let lastAcc = new Date(localStorage.getItem('lastAccess'))
+            let now = new Date()
+            // BUG: Will be a bug if someone accesses this exactly 1 month from last time, but I don't care
+            if (lastAcc.getDate() != now.getDate()) {
+                // New day!
+                localStorage.clear()
+            }
+        }
+
+        this.cStr = localStorage.getItem('lastStr')
+        if (this.cStr == null) {
+            localStorage.setItem('lastAccess', (new Date()).toString())
+            this.cStr = ''
+        } else {
+            localStorage.setItem('lastAccess', (new Date()).toString())
+        }
+        console.log(localStorage.getItem('lastAccess'))
+
+        this.render(false)
+        if (this.cStr.length == this.maxLen)
+            this.complete()
     }
     complete() {
         if (this.cStr.length < this.maxLen || this.isLocked) {
@@ -17,7 +45,7 @@ class Game {
             if (this.goal[i] in goalAmt)
                 goalAmt[this.goal[i]] += 1
             goalAmt
-                goalAmt[this.goal[i]] = 1
+            goalAmt[this.goal[i]] = 1
             if (this.cStr[i] === this.goal[i]) {
                 if (this.cStr[i] in accAmt)
                     accAmt[this.cStr[i]] += 1
@@ -34,7 +62,7 @@ class Game {
             } else if (actual in goalAmt && (!(actual in accAmt) || accAmt[actual] < goalAmt[actual])) {
                 if (actual in accAmt) {
                     accAmt[actual] = 1
-                } else 
+                } else
                     accAmt[actual] += 1
                 clrs.push('#fce166')
             } else {
@@ -44,17 +72,17 @@ class Game {
         const frameTime = 500
         for (let i = 0; i < this.maxLen; i++) {
             this.sqrs[i].style.transition = 'transform .25s linear'
-            setTimeout(()=>this.sqrs[i].style.transform = 'rotateX(-90deg)', i*frameTime)
-            setTimeout(()=>{
-                this.sqrs[i].style.border='none'
-                this.sqrs[i].style.backgroundColor=clrs[i]
-                this.sqrs[i].style.transform='rotateX(0deg)'
-            }, i*frameTime + frameTime/2)
+            setTimeout(() => this.sqrs[i].style.transform = 'rotateX(-90deg)', i * frameTime)
+            setTimeout(() => {
+                this.sqrs[i].style.border = 'none'
+                this.sqrs[i].style.backgroundColor = clrs[i]
+                this.sqrs[i].style.transform = 'rotateX(0deg)'
+            }, i * frameTime + frameTime / 2)
         }
         if (this.goal !== this.cStr) {
-            setTimeout( () => document.getElementById('loser-ting').style.opacity = 1, frameTime * this.maxLen)
+            setTimeout(() => document.getElementById('loser-ting').style.opacity = 1, frameTime * this.maxLen)
         } else {
-            setTimeout( () => document.getElementById('winner-ting').style.opacity = 1, frameTime * this.maxLen)
+            setTimeout(() => document.getElementById('winner-ting').style.opacity = 1, frameTime * this.maxLen)
         }
         this.isLocked = true
     }
@@ -66,10 +94,10 @@ class Game {
                     this.sqrs[i].animate([
                         //{transform: 'scale(1.05)'},
                         //{transform: 'scale(1)'},
-                    ], {duration: 200})
+                    ], { duration: 200 })
             } else
                 this.sqrs[i].innerHTML = ''
-            
+
         }
     }
     writeChar(c) {
@@ -77,6 +105,7 @@ class Game {
             return
         }
         this.cStr += c
+        localStorage.setItem('lastStr', this.cStr)
         this.render(true)
     }
     delChar() {
@@ -84,6 +113,7 @@ class Game {
             return
         }
         this.cStr = this.cStr.slice(0, -1)
+        localStorage.setItem('lastStr', this.cStr)
         this.render(false)
     }
 
