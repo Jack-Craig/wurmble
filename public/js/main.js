@@ -28,7 +28,6 @@ class Game {
         } else {
             localStorage.setItem('lastAccess', (new Date()).toString())
         }
-        console.log(localStorage.getItem('lastAccess'))
 
         this.render(false)
         if (this.cStr.length == this.maxLen)
@@ -79,6 +78,7 @@ class Game {
                 this.sqrs[i].style.transform = 'rotateX(0deg)'
             }, i * frameTime + frameTime / 2)
         }
+        setTimeout(()=>document.getElementById('loser-banner').style.opacity = 1, frameTime*this.maxLen)
         if (this.goal !== this.cStr) {
             setTimeout(() => document.getElementById('loser-ting').style.opacity = 1, frameTime * this.maxLen)
         } else {
