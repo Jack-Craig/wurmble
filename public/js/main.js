@@ -30,8 +30,8 @@ class Game {
         this.maxLen = this.sqrs.length
         this.goal = document.getElementById('this-isnt-the-word-you-cheater').attributes[1].nodeValue
         this.wurmbleno = document.getElementById('wurmble-no').attributes[1].nodeValue
-
-        if (localStorage.getItem('wurmbleno')) {
+        // lastAccess is a grandfather
+        if (localStorage.getItem('wurmbleno') || localStorage.getItem('lastAccess')) {
             if (localStorage.getItem('wurmbleno') !== this.wurmbleno) {
                 // new wurmble jus drop
                 console.log('clear')
